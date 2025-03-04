@@ -27,6 +27,9 @@ Support for EVM and Solana Wallets
 7. **Familiar Interface**: DEXL Wallet supports ethers.js out of the box, so you can use it as a drop-in replacement for other wallets.
 8. **No privacy compromises**: DEXL Wallet supports new Telegram Ed25519-signature scheme, so you don't need to give your bot token to us. We cryptographically validate user's authorization using Telegram Public Key and your public bot id.
 
+### Is it safe?
+Yes, it is safe. DEXL Wallet is built using Multi-Party Computation (MPC) technology, which ensures that neither our servers (nor yours), nor any third party (e.g., Telegram), have access to the user’s private key.
+
 ### EVM Example
 ```javascript
 import { ethers } from 'ethers';

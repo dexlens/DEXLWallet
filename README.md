@@ -3,7 +3,7 @@ Non-Custodial Wallet Using MPC Via Telegram
 
 Built using Multi-Party Computation (MPC) technology, DEXLWallet provides a secure and seamless solution for developers to embed blockchain wallets directly into Telegram-based applications.
 
-Most wallets available today are custodial, semi-custodial, or rely on your phone to stay functional—lose your phone, lose your wallet. TMA Wallet is built differently.
+Most wallets available today are custodial, semi-custodial, or rely on your phone to stay functional—lose your phone, lose your wallet. DEXL Wallet is built differently.
 
 Support for EVM and Solana Wallets
 
@@ -24,6 +24,46 @@ Support for EVM and Solana Wallets
 4. **Multi-Party Recovery**: Wallet recovery involves a six-step computational process using the user’s secret key stored in Telegram CloudStorage, a server-side secret key, and advanced cryptography (details in the footer).
 5. **Open Source**: The code is fully auditable, ensuring complete transparency.
 6. **Improved User Experience**: Whether on desktop or mobile, users logged into the same account can access the same wallet seamlessly.
-7. **Familiar Interface**: TMA Wallet supports ethers.js out of the box, so you can use it as a drop-in replacement for other wallets.
-8. **No privacy compromises**: TMA Wallet supports new Telegram Ed25519-signature scheme, so you don't need to give your bot token to us. We cryptographically validate user's authorization using Telegram Public Key and your public bot id.
+7. **Familiar Interface**: DEXL Wallet supports ethers.js out of the box, so you can use it as a drop-in replacement for other wallets.
+8. **No privacy compromises**: DEXL Wallet supports new Telegram Ed25519-signature scheme, so you don't need to give your bot token to us. We cryptographically validate user's authorization using Telegram Public Key and your public bot id.
+
+### EVM Example
+```javascript
+import { ethers } from 'ethers';
+const client = new DEXLWalletClient(myApiKey);
+const evmWallet = new DEXLWalletEVM(client);
+await evmWallet.authenticate(); // Automatically loads an existing user and wallet, or creates a new one if needed
+console.log('Your wallet address: ', evmWallet.walletAddress);
+const provider = new ethers.JsonRpcProvider();
+const signer = evmWallet.getEthersSigner(provider); // Use DEXL Wallet seamlessly with ethers.js and any provider
+const tx = await signer.sendTransaction({
+	to: '0x...',
+	value: ethers.parseEther('1'),
+});
+```
+
+### Solana Example
+```javascript
+import {
+	createSolanaRpc,
+	createTransactionMessage,
+	setTransactionMessageFeePayer,
+	signTransaction,
+} from '@solana/web3.js';
+
+const client = new DEXLWalletClient(myApiKey);
+const solanaWallet = new DEXLWalletSolana(client);
+await solanaWallet.authenticate(); // Automatically loads an existing user and wallet, or creates a new one if needed
+console.log('Your wallet address: ', solanaWallet.walletAddress);
+const rpc = createSolanaRpc('https://api.devnet.solana.com'); // replace with your RPC
+const signer = await solanaWallet.getSolanaSigner();
+const transactionMessage = createTransactionMessage({ version: 0 });
+const feePayerAddress = solanaWallet.walletAddress;
+const transactionMessageWithFeePayer = setTransactionMessageFeePayer(feePayerAddress, transactionMessage);
+
+// Attempting to sign the transaction message without a lifetime will throw a type error
+const signedTransaction = await signTransaction([signer], transactionMessageWithFeePayer);
+const txHash = await rpc.sendTransaction(signedTransaction);
+```
+
 

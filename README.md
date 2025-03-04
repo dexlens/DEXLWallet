@@ -1,7 +1,7 @@
 # DEXLWallet
 Non-Custodial Wallet Using MPC Via Telegram
 
-Built using Multi-Party Computation (MPC) technology, DEXLWallet provides a secure and seamless solution for developers to embed blockchain wallets directly into Telegram-based applications.
+Built using Multi-Party Computation (MPC) technology, DEXLWallet provides a secure and seamless solution to embed blockchain wallets directly into Dexlens Telegram-based applications.
 
 Most wallets available today are custodial, semi-custodial, or rely on your phone to stay functional—lose your phone, lose your wallet. DEXL Wallet is built differently.
 
